@@ -5,7 +5,7 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 ## Status
 | Phase | Name | Status |
 |---|---|---|
-| P0 | Bootstrap & shared lib | todo |
+| P0 | Bootstrap & shared lib | done |
 | P1 | auth-service | todo |
 | P2 | catalog-service | todo |
 | P3 | inventory-service | todo |
@@ -25,7 +25,7 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 - [x] P0-T1 Create Maven multi-module parent `backend/` (Java 19, Spring Boot 3.3 BOM, modern libs e.g. JHipster framework/helpers where suitable, modules listed in CONTEXT.md). Empty service modules with `Application` class + `/actuator/health`.
 - [x] P0-T2 `common` module: `ApiResponse`, `PageResponse`, `ErrorCode`, exceptions, `GlobalExceptionHandler`, `BaseEntity` (auditing), `InternalAuthFilter` (R6), `@RequireRole`, `BaseClient` (RestClient, timeouts, internal token, error mapping). Unit tests.
 - [x] P0-T3 Local infra setup (no Docker): `scripts/init-mysql.sql` (creates all `*_db` schemas + user), `.env.example`, and local dev profile config (MySQL 8 localhost:3306, MailHog/local SMTP 1025).
-- [ ] P0-T4 `gateway`: routes (SPEC §3), JWT validation filter, header injection/stripping, CORS, `X-Request-Id`, block `/internal/**`. Tests with WireMock-free `WebTestClient`.
+- [x] P0-T4 `gateway`: routes (SPEC §3), JWT validation filter, header injection/stripping, CORS, `X-Request-Id`, block `/internal/**`. Tests with WireMock-free `WebTestClient`.
 - Exit: `mvn clean verify` passes; `gateway` starts and `/actuator/health` responds UP.
 
 ## P1 auth-service (SPEC §4.1)

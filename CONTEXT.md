@@ -1,8 +1,8 @@
 # CONTEXT.md — live project state (agent-maintained, keep short)
 
 ## Current
-- Phase: P0
-- Next task: P0-T4
+- Phase: P1
+- Next task: P1-T1
 
 ## Repo layout (update when structure changes)
 ```
@@ -19,7 +19,7 @@ qlvatkpm/
 ## Services (update status: todo | wip | done)
 | Service | Port | DB schema | Status |
 |---|---|---|---|
-| gateway | 8080 | - | todo |
+| gateway | 8080 | - | done |
 | auth-service | 8081 | auth_db | todo |
 | catalog-service | 8082 | catalog_db | todo |
 | inventory-service | 8083 | inventory_db | todo |
@@ -35,6 +35,8 @@ qlvatkpm/
 - Files (P0-T1): `backend/pom.xml`, `backend/common/pom.xml`, 9 service modules (`pom.xml`, `*Application.java`, `application.yml`, `*ApplicationTests.java`), `.gitignore`
 - Files (P0-T2): `common` (`ApiResponse`, `ApiError`, `PageResponse`, `BaseEntity`, `ErrorCode`, exceptions, `GlobalExceptionHandler`, `InternalAuthFilter`, `UserContext`, `@RequireRole`, `BaseClient`, `CommonAutoConfiguration`) + 5 unit test classes
 - Files (P0-T3): `scripts/init-mysql.sql`, `.env.example`
+- Files (P0-T4): `gateway` (`GatewaySecurityFilter`, `InternalBlockWebFilter`, `JwtTokenVerifier`, `PublicRouteMatcher`, `application.yml`, `GatewaySecurityTests`)
+- Phase P0 Summary: Bootstrapped Java 19 + Spring Boot 3.3.5 Maven multi-module backend (`common`, `gateway`, 8 services), local MySQL/env setup, and verified `mvn clean verify` passes across all 11 artifacts.
 
 ## Implemented tables (append: `table — service — migration file`)
 
