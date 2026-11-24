@@ -6,7 +6,7 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 | Phase | Name | Status |
 |---|---|---|
 | P0 | Bootstrap & shared lib | done |
-| P1 | auth-service | todo |
+| P1 | auth-service | wip |
 | P2 | catalog-service | todo |
 | P3 | inventory-service | todo |
 | P4 | cart-service | todo |
@@ -29,7 +29,7 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 - Exit: `mvn clean verify` passes; `gateway` starts and `/actuator/health` responds UP.
 
 ## P1 auth-service (SPEC §4.1)
-- [ ] P1-T1 Flyway V1 tables + entities + repositories + admin seed from env.
+- [x] P1-T1 Flyway V1 tables + entities + repositories + admin seed from env.
 - [ ] P1-T2 Register, login, JWT issue (access/refresh), refresh rotation, logout.
 - [ ] P1-T3 Forgot/reset password (token hashed, 30 min) — notification call via `NotificationClient` (stub OK until P8, behind interface).
 - [ ] P1-T4 Profile get/update, change password.
