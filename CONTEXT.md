@@ -2,7 +2,7 @@
 
 ## Current
 - Phase: P0
-- Next task: P0-T3
+- Next task: P0-T4
 
 ## Repo layout (update when structure changes)
 ```
@@ -34,6 +34,7 @@ qlvatkpm/
 - `GET /actuator/health` — all 9 services (skeletons)
 - Files (P0-T1): `backend/pom.xml`, `backend/common/pom.xml`, 9 service modules (`pom.xml`, `*Application.java`, `application.yml`, `*ApplicationTests.java`), `.gitignore`
 - Files (P0-T2): `common` (`ApiResponse`, `ApiError`, `PageResponse`, `BaseEntity`, `ErrorCode`, exceptions, `GlobalExceptionHandler`, `InternalAuthFilter`, `UserContext`, `@RequireRole`, `BaseClient`, `CommonAutoConfiguration`) + 5 unit test classes
+- Files (P0-T3): `scripts/init-mysql.sql`, `.env.example`
 
 ## Implemented tables (append: `table — service — migration file`)
 
