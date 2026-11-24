@@ -5,8 +5,8 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 ## Status
 | Phase | Name | Status |
 |---|---|---|
-| P0 | Bootstrap & shared lib | todo |
-| P1 | auth-service | todo |
+| P0 | Bootstrap & shared lib | done |
+| P1 | auth-service | wip |
 | P2 | catalog-service | todo |
 | P3 | inventory-service | todo |
 | P4 | cart-service | todo |
@@ -22,14 +22,14 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 
 ---
 ## P0 Bootstrap & shared lib
-- [ ] P0-T1 Create Maven multi-module parent `backend/` (Java 21, Spring Boot 3.3 BOM, modules listed in CONTEXT.md). Empty service modules with `Application` class + `/actuator/health`.
-- [ ] P0-T2 `common` module: `ApiResponse`, `PageResponse`, `ErrorCode`, exceptions, `GlobalExceptionHandler`, `BaseEntity` (auditing), `InternalAuthFilter` (R6), `@RequireRole`, `BaseClient` (RestClient, timeouts, internal token, error mapping). Unit tests.
-- [ ] P0-T3 `docker-compose.yml`: MySQL 8 (init script creates all `*_db` schemas + user), MailHog; `.env.example`; per-service `Dockerfile` template. Services added to compose as they are built.
-- [ ] P0-T4 `gateway`: routes (SPEC §3), JWT validation filter, header injection/stripping, CORS, `X-Request-Id`, block `/internal/**`. Tests with WireMock-free `WebTestClient`.
-- Exit: `mvn clean verify` passes; `docker compose up mysql mailhog gateway` healthy.
+- [x] P0-T1 Create Maven multi-module parent `backend/` (Java 19, Spring Boot 3.3 BOM, modern libs e.g. JHipster framework/helpers where suitable, modules listed in CONTEXT.md). Empty service modules with `Application` class + `/actuator/health`.
+- [x] P0-T2 `common` module: `ApiResponse`, `PageResponse`, `ErrorCode`, exceptions, `GlobalExceptionHandler`, `BaseEntity` (auditing), `InternalAuthFilter` (R6), `@RequireRole`, `BaseClient` (RestClient, timeouts, internal token, error mapping). Unit tests.
+- [x] P0-T3 Local infra setup (no Docker): `scripts/init-mysql.sql` (creates all `*_db` schemas + user), `.env.example`, and local dev profile config (MySQL 8 localhost:3306, MailHog/local SMTP 1025).
+- [x] P0-T4 `gateway`: routes (SPEC §3), JWT validation filter, header injection/stripping, CORS, `X-Request-Id`, block `/internal/**`. Tests with WireMock-free `WebTestClient`.
+- Exit: `mvn clean verify` passes; `gateway` starts and `/actuator/health` responds UP.
 
 ## P1 auth-service (SPEC §4.1)
-- [ ] P1-T1 Flyway V1 tables + entities + repositories + admin seed from env.
+- [x] P1-T1 Flyway V1 tables + entities + repositories + admin seed from env.
 - [ ] P1-T2 Register, login, JWT issue (access/refresh), refresh rotation, logout.
 - [ ] P1-T3 Forgot/reset password (token hashed, 30 min) — notification call via `NotificationClient` (stub OK until P8, behind interface).
 - [ ] P1-T4 Profile get/update, change password.
@@ -47,7 +47,7 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 - [ ] P2-T7 Wishlist.
 - [ ] P2-T8 Reviews (verified purchase via `OrderClient` interface; stub until P6) + rating aggregation + admin moderation.
 - [ ] P2-T9 Dev seed data (SPEC §7).
-- Exit: filter/sort queries covered by Testcontainers tests.
+- Exit: filter/sort queries covered by `@DataJpaTest` (H2 MySQL mode) tests.
 
 ## P3 inventory-service (SPEC §4.3)
 - [ ] P3-T1 Flyway V1 + entities (`stocks` with `@Version`, reservations, movements).
@@ -121,7 +121,7 @@ Legend: `[ ]` todo, `[x]` done. Task ID = `P<phase>-T<n>`. "SPEC §x" = section 
 - [ ] P12-T6 Customers, coupons, reviews.
 
 ## P13 hardening & delivery
-- [ ] P13-T1 Dockerfiles for all services + frontend (nginx); full `docker compose up` works with seed data.
+- [ ] P13-T1 Local run & startup scripts (`scripts/start-all.ps1` / `scripts/start-all.sh` + frontend build/preview) work end-to-end against local MySQL 8 with seed data (no Docker).
 - [ ] P13-T2 Cross-service smoke test script (`scripts/smoke.sh`: register → browse → cart → order → pay-mock → deliver).
 - [ ] P13-T3 Security pass: verify R6 (internal token, header stripping, role checks) with tests; remove unused code; N+1 check on list endpoints.
 - [ ] P13-T4 Root `README.md` ≤ 40 lines (run, ports, accounts, env).

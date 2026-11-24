@@ -5,8 +5,8 @@ Online clothing store. Roles: GUEST, CUSTOMER, ADMIN. Currency VND. Payment: COD
 Out of scope: RabbitMQ, Redis, Kafka, social login, multi-language, shipping carrier API, returns refund automation, recommendation engine.
 
 ## §2 Ports & infra
-gateway 8080 | auth 8081 | catalog 8082 | inventory 8083 | cart 8084 | promotion 8085 | order 8086 | payment 8087 | notification 8088 | frontend 5173 | MySQL 3306 | MailHog SMTP 1025 / UI 8025.
-Service URLs via env, e.g. `CATALOG_URL=http://catalog-service:8082`. No service discovery.
+gateway 8080 | auth 8081 | catalog 8082 | inventory 8083 | cart 8084 | promotion 8085 | order 8086 | payment 8087 | notification 8088 | frontend 5173 | MySQL 3306 (localhost) | MailHog SMTP 1025 / UI 8025 (or local SMTP).
+Service URLs via env, e.g. `CATALOG_URL=http://localhost:8082`. No service discovery, no Docker.
 
 ## §3 Gateway routes (Spring Cloud Gateway)
 | Path prefix | Target | Auth |
@@ -53,7 +53,7 @@ Endpoints:
 - ADMIN: POST/PUT/DELETE(soft) /products; POST /products/{id}/variants; PUT/DELETE /variants/{id}; POST /products/{id}/images (multipart); DELETE /images/{id}; CRUD /categories, /brands; PUT /reviews/{id}/status
 - CUSTOMER: GET/POST/DELETE /wishlist; POST /reviews (only if verified purchase: calls order-service `GET /internal/v1/orders/{orderId}/purchased?userId&productId` → DELIVERED/COMPLETED); GET /products/{id}/reviews (public, paged)
 - Internal: POST /internal/v1/variants/batch `{variantIds[]}` → variant + product snapshot (name, slug, sku, color, size, effective price, primary image, active); POST /internal/v1/products/sold-count `{items:[{productId,qty}]}` (increment, called after order DELIVERED).
-Rules: effective price = variant.price_override ?? product.sale_price ?? product.base_price. Only ACTIVE, non-deleted products public. File storage via `StorageService` Strategy: `LocalStorageService` (default; volume `/data/uploads`, served at `/uploads/**`); max 5 MB, jpg/png/webp. Slug auto-generated from name (unique suffix).
+Rules: effective price = variant.price_override ?? product.sale_price ?? product.base_price. Only ACTIVE, non-deleted products public. File storage via `StorageService` Strategy: `LocalStorageService` (default; local dir `./data/uploads` or env `UPLOAD_DIR`, served at `/uploads/**`); max 5 MB, jpg/png/webp. Slug auto-generated from name (unique suffix).
 
 ### §4.3 inventory-service (inventory_db)
 Tables:
