@@ -1,7 +1,7 @@
 # RULES.md — coding rules (obey strictly)
 
 ## R1 Stack & versions
-- Java 21, Spring Boot 3.3.x, Maven, Spring Data JPA (Hibernate), Flyway, MySQL 8, Lombok, MapStruct, springdoc-openapi, JUnit 5, Mockito, Testcontainers (MySQL).
+- Java 19, Spring Boot 3.3.x, Maven, Spring Data JPA (Hibernate), Flyway, MySQL 8, Lombok, MapStruct, springdoc-openapi, JHipster common/modern Spring libs (where helpful, e.g. `tech.jhipster:jhipster-framework` / PaginationUtil / ResponseUtil), JUnit 5, Mockito, H2 (MySQL mode for `@DataJpaTest`).
 - Inter-service HTTP: Spring `RestClient` wrapped in a client class (no Feign needed). Timeouts: connect 2s, read 5s.
 - Frontend: React 18, Vite, TypeScript (strict), React Router, TanStack Query, Axios, Tailwind CSS, React Hook Form + Zod.
 
@@ -76,7 +76,7 @@ exception/    service-specific exceptions
 
 ## R9 Testing (required per task)
 - Unit tests (Mockito) for every service-impl public method with logic.
-- `@DataJpaTest` + Testcontainers for custom queries/specifications.
+- `@DataJpaTest` with H2 (`MODE=MySQL`) or local MySQL for custom queries/specifications (no Docker/Testcontainers).
 - `@WebMvcTest` for controllers: validation + status codes.
 - One integration test per saga/critical flow (order-service).
 - Frontend: Vitest + React Testing Library for forms and cart logic only.
@@ -89,9 +89,10 @@ exception/    service-specific exceptions
 - Commits: Conventional Commits. One task = one commit.
 - Each service has `README.md` ≤ 20 lines: run command, env vars, port. No other prose docs.
 
-## R11 Docker / run
-- Each service has a `Dockerfile` (multi-stage, JRE 21 slim). Root `docker-compose.yml` runs MySQL, MailHog, all services, frontend.
-- Health: `/actuator/health` on every service. Compose uses `depends_on` with healthcheck for MySQL.
+## R11 Local run (no Docker)
+- Run MySQL 8 directly on localhost (`3306`) with init SQL script creating all `*_db` schemas + user; MailHog (or local SMTP / dev mail logger) on `1025`/`8025`.
+- Each service runs via `mvn -pl <service> spring-boot:run` or `java -jar`, configured via `.env` / environment variables (`.env.example` committed).
+- Health: `/actuator/health` on every service. Provide local start/stop helper scripts in `scripts/`.
 
 ## R12 Frontend rules
 - Folder: `src/{api,components,features/<feature>,pages,routes,hooks,types,utils}`.
